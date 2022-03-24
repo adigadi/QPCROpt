@@ -30,3 +30,5 @@ df['fwdGC'] = gc_fwd
 df['revGC'] = gc_rev
 df.head()
 # %%
+df.to_csv('simDataGC.txt', index=None)
+# %%
