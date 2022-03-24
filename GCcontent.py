@@ -15,7 +15,6 @@ gc_rev = []
 
 for primer in fwd:
     counts = collections.Counter(primer)
-    print(counts)
     gc_count = counts['G'] + counts['C']
     gc_content = gc_count / len(primer)
     gc_fwd.append(gc_content)
