@@ -43,9 +43,15 @@ def get_query_index(observed_file, unobserved_file, batch_size):
      # select the one with greatest error or highest standard deviation
     return most_uncertain
 
-def write_query_file(df, filename, query_index):
+def write_query_file(output_filename, observed_file, unobserved_file, batch_size):
     #  batch 3 parameter set (samples) for us to "query.txt"
-    pass
+    query_index = get_query_index(observed_file, unobserved_file, batch_size)
+    unobserved = pd.read_csv(unobserved_file)
+    toWrite = unobserved.iloc[query_index, :].to_csv(index = True)
+    with open(output_filename, "w") as f:
+        f.write(toWrite)
+        f.close()
+    return toWrite
 
 
 
