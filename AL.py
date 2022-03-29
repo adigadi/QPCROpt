@@ -14,6 +14,19 @@ def preprocess(df):
     pass
 
 
+
+def update_observed_file(observed_file, unobserved_file, trueCT_filename):
+    pass
+
+def update_unobserved_file(unobserved_filename, trueCT_filename):
+    # query.txt = the first column will have the index with respect to the unobserved.csv
+
+    unobserved = pd.read_csv(unobserved_filename)
+    unobserved.drop(labels = query_index, axis = 0, inplace = True)
+    unobserved.to_csv(unobserved_filename, index = False)
+
+
+
 #read observed.csv
 # return the uncertainty of each unobserved data
 def get_query_index(observed_file, unobserved_file, batch_size):
