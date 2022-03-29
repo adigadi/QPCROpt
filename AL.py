@@ -56,9 +56,3 @@ def update_observed_file(df, query_index):
 
 def update_unobserved_file(df, query_index):
     pass
-
-# %%
-a = 1
-
-
-# %%
