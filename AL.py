@@ -39,7 +39,7 @@ def get_query_index(observed_file, unobserved_file, batch_size):
     # selected_indices = [available_indices[i] for i 
     #                 in numerical_selected_indices]
      # select the one with greatest error or highest standard deviation
-    return 
+    return most_uncertain
 
 # return the top M most uncertainty combinations index
 # M: batch size
