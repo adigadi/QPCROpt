@@ -42,6 +42,7 @@ def get_query_index(observed_file, unobserved_file, batch_size):
     return most_uncertain
 
 def write_query_file(df, filename, query_index):
+    #  batch 3 parameter set (samples) for us to "query.txt"
     pass
 
 def update_observed_file(df, query_index):
@@ -50,5 +51,5 @@ def update_observed_file(df, query_index):
 def update_unobserved_file(df, query_index):
     pass
 
-def
+
 
