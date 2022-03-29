@@ -10,21 +10,23 @@ from sklearn.ensemble import RandomForestRegressor
 
 #drop unused feature (f_seq, b_seq, T, start, stop)
 #return preprossed dataframe
-def preprocess(df):
+def getTrueCt(qPCROutput_filename):
     pass
 
+def update_observed_file(observed_filename, query_filename, qPCROutput_filename):
+    observed = pd.read_csv(observed_filename)
+    query = pd.read_csv(query_filename)
+    query["TrueCt"] = getTrueCt(qPCROutput_filename)
+    observed = pd.concat([observed, query], ignore_index=True)
+    observed.to_csv(observed_filename, index = False)
 
-
-def update_observed_file(observed_file, unobserved_file, trueCT_filename):
-    pass
-
-def update_unobserved_file(unobserved_filename, trueCT_filename):
+def update_unobserved_file(unobserved_filename, query_filename):
     # query.txt = the first column will have the index with respect to the unobserved.csv
 
     unobserved = pd.read_csv(unobserved_filename)
+    query_index = pd.read_csv(query_filename).iloc[:,0].to_numpy()
     unobserved.drop(labels = query_index, axis = 0, inplace = True)
-    unobserved.to_csv(unobserved_filename, index = False)
-
+    unobserved.to_csv(unobserved_filename, index = True)
 
 
 #read observed.csv
