@@ -1,6 +1,6 @@
 # simulation
 # query.txt = the first column will have the index with respect to the unobserved.csv
-# run it on virtual harfdware///.... outputs to txt  - "trueCt.txt" will have index values of the unobserved.csv and ct
+# run it on virtual harfdware///.... outputs to txt  - "query.txt" will have index values of the unobserved.csv and "qpcrOutput.CSV" ct
 # update(input:"trueCt.txt") - update & save observed.csv unobserved.csv
 # uncertainty (observed.csv unobserved.csv , batch#) --> batch 3 parameter set (samples) for us to "query.txt"
 
