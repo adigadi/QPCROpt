@@ -41,11 +41,6 @@ def get_query_index(observed_file, unobserved_file, batch_size):
      # select the one with greatest error or highest standard deviation
     return most_uncertain
 
-# return the top M most uncertainty combinations index
-# M: batch size
-def get_query_index(df):
-    pass
-
 def write_query_file(df, filename, query_index):
     pass
 
