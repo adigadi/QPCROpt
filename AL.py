@@ -45,15 +45,6 @@ def get_query_index(observed_file, unobserved_file, batch_size):
         max_index = int(np.argmax(stds))
         most_uncertain.append(max_index)
         stds[max_index] = -1
-    # probas = stds/sum(stds) #makes them sum to 1
-    # numerical_selected_indices = np.random.choice(
-    #         range(len(probas)),
-    #         size=batch_size,
-    #         replace=False,
-    #         p=probas)
-    # selected_indices = [available_indices[i] for i 
-    #                 in numerical_selected_indices]
-     # select the one with greatest error or highest standard deviation
     return most_uncertain
 
 def write_query_file(output_filename, observed_file, unobserved_file, batch_size):
