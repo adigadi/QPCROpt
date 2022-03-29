@@ -1,4 +1,5 @@
 # simulation
+# query.txt = the first column will have the index with respect to the unobserved.csv
 # run it on virtual harfdware///.... outputs to txt  - "trueCt.txt" will have index values of the unobserved.csv and ct
 # update(input:"trueCt.txt") - update & save observed.csv unobserved.csv
 # uncertainty (observed.csv unobserved.csv , batch#) --> batch 3 parameter set (samples) for us to "query.txt"
@@ -11,6 +12,7 @@ from sklearn.ensemble import RandomForestRegressor
 #return preprossed dataframe
 def preprocess(df):
     pass
+
 
 #read observed.csv
 # return the uncertainty of each unobserved data
@@ -43,12 +45,6 @@ def get_query_index(observed_file, unobserved_file, batch_size):
 
 def write_query_file(df, filename, query_index):
     #  batch 3 parameter set (samples) for us to "query.txt"
-    pass
-
-def update_observed_file(df, query_index):
-    pass
-
-def update_unobserved_file(df, query_index):
     pass
 
 
