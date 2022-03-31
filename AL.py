@@ -44,14 +44,24 @@ def update_observed_file(observed_filename, query_filename, qPCR_filename, repli
     observed = pd.concat([observed, query], ignore_index=True)
     observed.to_csv(observed_filename, index = False)
 
+    
+def setTrueCt(query_df, qPCR_df):
+    trueCT_values = qPCR_df["CT "]
+    query_df = query_df.join(trueCT_values)
+    return query_df
 
-def update_unobserved_file(unobserved_filename, query_filename):
-    # query.txt = the first column will have the index with respect to the unobserved.csv
+#query file: index, content
+#observed: dataframe
+#qPCROutput: not Known
+#replicates = 8 for this experiment
+def update_observed_file(observed_filename, query_filename, qPCR_filename, replicates):
+    observed = pd.read_csv(observed_filename)
+    query = pd.read_csv(query_filename)
+    qPCR = pd.read_csv(qPCR_filename)
 
-    unobserved = pd.read_csv(unobserved_filename)
-    query_index = pd.read_csv(query_filename).iloc[:,0].to_numpy()
-    unobserved.drop(labels = query_index, axis = 0, inplace = True)
-    unobserved.to_csv(unobserved_filename, index = True)
+    query["TrueCt"] = setTrueCt(query, qPCR)
+    observed = pd.concat([observed, query], ignore_index=True)
+    observed.to_csv(observed_filename, index = False)
 
 
 #read observed.csv
