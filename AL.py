@@ -3,20 +3,36 @@
 # run it on virtual harfdware///.... outputs to txt  - "query.txt" will have index values of the unobserved.csv and "qpcrOutput.CSV" ct
 # update(input:"trueCt.txt") - update & save observed.csv unobserved.csv
 # uncertainty (observed.csv unobserved.csv , batch#) --> batch 3 parameter set (samples) for us to "query.txt"
-
+import os
+import fnmatch
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 
-#drop unused feature (f_seq, b_seq, T, start, stop)
-#return preprossed dataframe
-def getTrueCt(qPCROutput_filename):
-    pass
+def find_qPCR_file():
+    for filename in os.listdir('.'):
+        if fnmatch.fnmatch(filename, '*Results*.xls'):
+            return filename
 
-def update_observed_file(observed_filename, query_filename, qPCROutput_filename):
+def read_qPCR_file(qPCR_filename):
+    raw_df = pd.read_excel(qPCR_filename)
+    raw_df.columns = raw_df.iloc[39,:].values.flatten().tolist()
+    df = raw_df.iloc[40:,:]
+    qPCR_df = df[['Well Position', 'CT', 'Ct Mean']].copy()
+    return qPCR_df
+
+def write_qPCR_output(filename):
+    qPCR_filename = find_qPCR_file()
+    qPCR_df = read_qPCR_file(qPCR_filename)
+    qPCR_df.to_csv(filename, index=False)
+    
+def getTrueCt(felixPos_file):
+    pass
+    
+def update_observed_file(observed_filename, query_filename, qPCR_filename):
     observed = pd.read_csv(observed_filename)
     query = pd.read_csv(query_filename)
-    query["TrueCt"] = getTrueCt(qPCROutput_filename)
+    query["TrueCt"] = getTrueCt(qPCR_filename)
     observed = pd.concat([observed, query], ignore_index=True)
     observed.to_csv(observed_filename, index = False)
 
