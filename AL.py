@@ -30,25 +30,6 @@ def setTrueCt(query_df, qPCR_df):
     trueCT_values = qPCR_df["CT "]
     query_df = query_df.join(trueCT_values)
     return query_df
-    
-#query file: index, content
-#observed: dataframe
-#qPCROutput: not Known
-#replicates = 8 for this experiment
-def update_observed_file(observed_filename, query_filename, qPCR_filename, replicates):
-    observed = pd.read_csv(observed_filename)
-    query = pd.read_csv(query_filename)
-    qPCR = pd.read_csv(qPCR_filename)
-
-    query["TrueCt"] = setTrueCt(query, qPCR)
-    observed = pd.concat([observed, query], ignore_index=True)
-    observed.to_csv(observed_filename, index = False)
-
-    
-def setTrueCt(query_df, qPCR_df):
-    trueCT_values = qPCR_df["CT "]
-    query_df = query_df.join(trueCT_values)
-    return query_df
 
 #query file: index, content
 #observed: dataframe
