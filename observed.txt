@@ -1,1 +1,1 @@
-
+idx,forward primer,reverse primer,forward GC,forward T,reverse GC,reverse T,dist,Mg Conc
