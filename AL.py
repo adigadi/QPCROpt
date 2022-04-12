@@ -6,6 +6,7 @@
 import os
 import fnmatch
 import numpy as np
+import random
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 
@@ -26,7 +27,7 @@ def read_qPCR_file(qPCR_filename):
 
 #checked
 def write_qPCR_output(filename):
-    qPCR_filename = find_qPCR_file()
+    qPCR_filename = find_qPCR_file() # excel spreadsheet
     qPCR_df = read_qPCR_file(qPCR_filename)
     qPCR_df.to_csv(filename, index=False)
     
@@ -67,7 +68,7 @@ def get_query_index(observed_file, unobserved_file, batch_size, first_run):
     
     if first_run == True: 
         #random selected seeds
-        most_uncertain = sample(list(range(len(unobserved))), batch_size)
+        most_uncertain = random.sample(list(range(len(unobserved))), batch_size)
     
     else: 
         #uncertainty sampling
@@ -88,12 +89,12 @@ def get_query_index(observed_file, unobserved_file, batch_size, first_run):
     return most_uncertain
 
 #first_run: boolean var -- True if write initial seeds as query, False if write selected batch by uncertainty sampling
-def write_query_file(output_filename, observed_file, unobserved_file, batch_size, first_run):
+def write_query_file(query_filename, observed_file, unobserved_file, batch_size, first_run):
     #  batch 3 parameter set (samples) for us to "query.csv" 
     query_index = get_query_index(observed_file, unobserved_file, batch_size, first_run)
     unobserved = pd.read_csv(unobserved_file)
     toWrite = unobserved.iloc[query_index, :].to_csv(index = True)
-    with open(output_filename, "w") as f:
+    with open(query_filename, "w") as f:
         f.write("idx")
         f.write(toWrite)
         f.close()
