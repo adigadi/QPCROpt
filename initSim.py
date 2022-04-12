@@ -11,8 +11,10 @@ returns: the queries as a dataframe
 
 
 def main():
-
-    init("simDataGC.txt", 3, "query.csv", True) # pick 3 initial queries
+    
+    df_data = pd.read_csv("simDataGC.txt")
+    df_data.to_csv("unobsSim.txt")
+    init("unobsSim.txt", 3, "query.csv", True) # pick 3 initial queries
 
 
 def init(dataFileDir, batchSize, output_filename, sim):
