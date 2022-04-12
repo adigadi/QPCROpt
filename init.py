@@ -1,4 +1,3 @@
-# %%
 import pandas as pd
 """
 input:  dataFileDir: the filename of all simulation data (simulation) or of unobserved (actual)
@@ -9,6 +8,13 @@ Randomly selects batchSize number of unlabeled samples (drop Ct)
 Writes to output_filename
 returns: the queries as a dataframe
 """
+
+
+def main():
+
+    init("simDataGC.txt", 3, "query.csv", True) # pick 3 initial queries
+
+
 def init(dataFileDir, batchSize, output_filename, sim):
     df = pd.read_csv(dataFileDir)
     print(df)
@@ -24,4 +30,5 @@ def init(dataFileDir, batchSize, output_filename, sim):
         f.close()
     return init
 
-# %%
+if __name__ == "__main__":
+    main()
