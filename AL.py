@@ -93,9 +93,8 @@ def write_query_file(query_filename, observed_file, unobserved_file, batch_size,
     #  batch 3 parameter set (samples) for us to "query.csv" 
     query_index = get_query_index(observed_file, unobserved_file, batch_size, first_run)
     unobserved = pd.read_csv(unobserved_file)
-    toWrite = unobserved.iloc[query_index, :].to_csv(index = True)
+    toWrite = unobserved.iloc[query_index, :].to_csv(index = False)
     with open(query_filename, "w") as f:
-        f.write("idx")
         f.write(toWrite)
         f.close()
 
