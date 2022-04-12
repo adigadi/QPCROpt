@@ -3,8 +3,6 @@ import AL
 
 def main():
     
-    # init.init("simDataGC.txt", 3, "query.csv", True) # pick 3 initial queries
-
     AL.write_qPCR_output("qPCR_output.txt") # read qPCR spreadsheet and write to txt file
 
     AL.update_observed_file("observed.txt", "query.csv", False) # read queries, add CT values, and add queries to observed file
