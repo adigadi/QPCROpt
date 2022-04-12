@@ -3,6 +3,7 @@
 # run it on virtual harfdware///.... outputs to txt  - "query.txt" will have index values of the unobserved.csv and "qpcrOutput.CSV" ct
 # update(input:"trueCt.txt") - update & save observed.csv unobserved.csv
 # uncertainty (observed.csv unobserved.csv , batch#) --> batch 3 parameter set (samples) for us to "query.txt"
+from email.charset import QP
 import os
 import fnmatch
 import numpy as np
@@ -36,17 +37,32 @@ def setTrueCt(query_df, qPCR_df):
     query_df = query_df.join(trueCT_values)
     return query_df
 
+def setSimCT(simDataDir, queryDir):
+    simDf = pd.read_csv(simDataDir)
+    queryDf = pd.read_csv(queryDir)
+    queryIdx = queryDf["idx"].values
+    # ct = []
+    # for i in queryIdx:
+    #     ct.append(simDf[simDf["idx"] == i]["Ct"])
+
+    
+    queryDf["Ct"] = simDf.iloc[queryIdx]["Ct"]
+    return queryDf
+
 #query file: index, content
 #observed: dataframe
 #qPCROutput: not Known
-def update_observed_file(observed_filename, query_filename, qPCR_filename, first_run):
+def update_observed_file(observed_filename, query_filename, qPCR_filename, first_run, sim, simDataDir):
     if first_run == True:
         observed = pd.DataFrame()
     else:
         observed = pd.read_csv(observed_filename)
     query = pd.read_csv(query_filename)
     qPCR = pd.read_csv(qPCR_filename)
-    query_ct = setTrueCt(query, qPCR)
+    if not sim:
+        query_ct = setTrueCt(query, qPCR)
+    else:
+        query_ct = setSimCT(simDataDir, query_filename)
     observed = observed.append(query_ct, ignore_index=True)
     observed.to_csv(observed_filename, index = False)
 
