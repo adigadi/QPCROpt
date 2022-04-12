@@ -17,17 +17,14 @@ def main():
 
 def init(dataFileDir, batchSize, output_filename, sim):
     df = pd.read_csv(dataFileDir)
-    print(df)
+    # print(df)
     init = df.sample(batchSize)
-    print(init)
+    # print(init)
+    init["idx"] = init.index
     if sim:
-        init = init.drop("Ct", axis = 1).to_csv(index = True)
+        init.drop("Ct", axis = 1).to_csv(output_filename,index = False)
     else:
-        init = init.to_csv(index = True)
-    with open(output_filename, "w") as f:
-        f.write("idx")
-        f.write(init)
-        f.close()
+        init.to_csv(output_filename,index = False)
     return init
 
 if __name__ == "__main__":

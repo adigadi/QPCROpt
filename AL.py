@@ -41,12 +41,17 @@ def setSimCT(simDataDir, queryDir):
     simDf = pd.read_csv(simDataDir)
     queryDf = pd.read_csv(queryDir)
     queryIdx = queryDf["idx"].values
+    print("printing queryIdx")
+    print(queryIdx)
     # ct = []
     # for i in queryIdx:
     #     ct.append(simDf[simDf["idx"] == i]["Ct"])
 
-    
-    queryDf["Ct"] = simDf.iloc[queryIdx]["Ct"]
+    print("simDf")
+    print(simDf)
+    queryDf["Ct"] = simDf.iloc[queryIdx]["Ct"].values
+    print("queryDf")
+    print(queryDf)
     return queryDf
 
 #query file: index, content
@@ -63,16 +68,24 @@ def update_observed_file(observed_filename, query_filename, qPCR_filename, first
         query_ct = setTrueCt(query, qPCR)
     else:
         query_ct = setSimCT(simDataDir, query_filename)
-    observed = observed.append(query_ct, ignore_index=True)
+    print("before appending")
+    print(query_ct)
+    print(observed)
+    observed = observed.append(query_ct, ignore_index=True, sort = False)
+    print("after appending")
+    print(observed)
     observed.to_csv(observed_filename, index = False)
 
 def update_unobserved_file(unobserved_filename, query_filename):
     # query.txt = the first column will have the index with respect to the unobserved.csv
     unobserved = pd.read_csv(unobserved_filename)
-    query_index = pd.read_csv(query_filename).iloc[:,0].to_numpy()
+    query_index = pd.read_csv(query_filename)["idx"].to_numpy()
     print(query_index)
-    unobserved.drop(labels = query_index, axis = 0, inplace = True)
-    unobserved.to_csv(unobserved_filename, index = True)
+    label = unobserved[unobserved.idx.isin(query_index)].index
+    print("update_unobs label")
+    print(label)
+    unobserved.drop(labels = label, axis = 0, inplace = True)
+    unobserved.to_csv(unobserved_filename, index = False)
 
 #read observed.csv
 # return the uncertainty of each unobserved data
@@ -108,9 +121,12 @@ def get_query_index(observed_file, unobserved_file, batch_size, first_run):
 def write_query_file(query_filename, observed_file, unobserved_file, batch_size, first_run):
     #  batch 3 parameter set (samples) for us to "query.csv" 
     query_index = get_query_index(observed_file, unobserved_file, batch_size, first_run)
+    print("query_idx")
+    print(query_index)
     unobserved = pd.read_csv(unobserved_file)
-    toWrite = unobserved.iloc[query_index, :].to_csv(index = False)
-    with open(query_filename, "w") as f:
-        f.write(toWrite)
-        f.close()
+    print("unobserved")
+    print(unobserved)
+    print("iloc thingy")
+    print(unobserved.iloc[query_index, :])
+    unobserved.iloc[query_index, :].to_csv(query_filename,index = False)
 
