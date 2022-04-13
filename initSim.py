@@ -12,19 +12,25 @@ returns: the queries as a dataframe
 
 def main():
 
+    df_data = pd.read_csv("simDataGC.txt")
+    df_data["idx"] = df_data.index
+    df_data.to_csv("unobsSim.txt",index=False)
     init("simDataGC.txt", 3, "query.csv", True) # pick 3 initial queries
 
 
 def init(dataFileDir, batchSize, output_filename, sim):
     df = pd.read_csv(dataFileDir)
-    # print(df)
+    print(df)
     init = df.sample(batchSize)
-    # print(init)
-    init["idx"] = init.index
+    print(init)
     if sim:
-        init.drop("Ct", axis = 1).to_csv(output_filename,index = False)
+        init = init.drop("Ct", axis = 1).to_csv(index = True)
     else:
-        init.to_csv(output_filename,index = False)
+        init = init.to_csv(index = True)
+    with open(output_filename, "w") as f:
+        f.write("idx")
+        f.write(init)
+        f.close()
     return init
 
 if __name__ == "__main__":
