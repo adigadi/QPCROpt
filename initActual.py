@@ -12,7 +12,7 @@ returns: the queries as a dataframe
 
 def main():
 
-    init("simDataGC.txt", 3, "query.csv", False) # pick 3 initial queries
+    init("unobserved.txt", 12, "query.csv", False) # pick 3 initial queries
 
 
 def init(dataFileDir, batchSize, output_filename, sim):
