@@ -34,7 +34,8 @@ def write_qPCR_output(filename):
     
 def setTrueCt(query_df, qPCR_df):
     trueCT_values = qPCR_df["mean_ct"]
-    query_df = query_df.join(trueCT_values)
+    query_df["mean_ct"] = trueCT_values
+    query_df = query_df.dropna()
     return query_df
 
 def setSimCT(simDataDir, queryDir):
@@ -102,13 +103,13 @@ def get_query_index(observed_file, unobserved_file, batch_size, first_run):
     else: 
         #uncertainty sampling
         observed = pd.read_csv(observed_file)
-        X, y = observed[["fwdGC", "revGC"]], observed["Ct"]
+        X, y = observed[["forward GC", "reverse GC", "Mg Conc", "dist"]], observed["mean_ct"]
         reg = RandomForestRegressor(n_estimators=3,random_state=0)
-        reg.fit(X,y ) #observed
+        reg.fit(X,y) #observed
         # find the most uncertain
         outputs = []
         for estimator in reg.estimators_:
-            outputs.append(estimator.predict(unobserved[["fwdGC", "revGC"]])) #unobserved
+            outputs.append(estimator.predict(unobserved[["forward GC", "reverse GC", "Mg Conc","dist"]])) #unobserved
         stds = np.std(outputs, axis=0)
         for i in range(batch_size):
             max_index = int(np.argmax(stds))
